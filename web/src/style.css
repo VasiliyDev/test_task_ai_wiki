@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/* Тёмная mobile-first тема. Tailwind v4 (плагин @tailwindcss/vite). */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-zinc-950 text-zinc-100 antialiased;
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  /* Высота под мобилку (Safari 100dvh). */
+  #app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  a {
+    @apply text-sky-400 no-underline;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto w-full max-w-3xl flex-1;
+    padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+  }
+
+  .site-header {
+    @apply sticky top-0 z-10 border-b border-zinc-800;
+    background: rgba(9, 9, 11, 0.9);
+    backdrop-filter: saturate(150%) blur(8px);
+    padding-top: env(safe-area-inset-top);
+  }
+  .bar {
+    @apply mx-auto flex w-full max-w-3xl items-center gap-3.5 px-4 py-3;
+  }
+  .brand {
+    @apply text-base font-bold whitespace-nowrap text-zinc-100;
+  }
+  .nav {
+    @apply flex gap-1.5 overflow-x-auto;
+  }
+  .nav a {
+    @apply rounded-lg px-2.5 py-1.5 text-sm whitespace-nowrap text-zinc-400;
+  }
+  .nav a.router-link-active {
+    @apply bg-zinc-900 text-zinc-100;
+  }
+
+  .card {
+    @apply rounded-2xl border border-zinc-800 bg-zinc-900 p-4;
+  }
+  .muted {
+    @apply text-zinc-400;
+  }
+  .error {
+    @apply text-red-400;
+  }
+  .field {
+    @apply w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-3 text-base text-zinc-100;
+  }
+  .field::placeholder {
+    @apply text-zinc-500;
+  }
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-xl bg-sky-500 px-4 py-3 text-sm font-semibold text-zinc-950;
+  }
+  .btn:disabled {
+    @apply cursor-default opacity-50;
+  }
+  .btn-secondary {
+    @apply bg-zinc-800 text-zinc-100;
+  }
+  .badge {
+    @apply rounded-md bg-sky-400 px-1.5 text-[11px] font-medium text-zinc-950;
+  }
+
+  .list {
+    @apply m-0 mt-4 list-none p-0;
+  }
+  .list li {
+    @apply border-b border-zinc-800 py-3;
+  }
+
+  .result-banner {
+    @apply mb-3 flex items-center justify-between gap-3 rounded-xl border border-zinc-800 p-3;
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.15), rgba(124, 92, 255, 0.12));
+  }
+
+  .chat-wrap {
+    min-height: 360px;
+    height: calc(100dvh - 64px - env(safe-area-inset-top));
+  }
+
+  .comments {
+    @apply mt-9 border-t border-zinc-800 pt-5;
+  }
+  .comment {
+    @apply border-b border-zinc-800 py-3;
+  }
+}
+
+vue-advanced-chat {
+  display: block;
+  height: 100%;
+}
+
+/* Рендер markdown (v-html) — стилизуем потомков. */
+.prose-article {
+  @apply text-zinc-100;
+}
+.prose-article h1 {
+  @apply mt-0 text-2xl leading-tight font-semibold;
+}
+.prose-article h2 {
+  @apply mt-6 text-xl font-semibold;
+}
+.prose-article h3 {
+  @apply mt-4 text-lg font-semibold;
+}
+.prose-article p {
+  @apply my-3;
+}
+.prose-article ul {
+  @apply my-3 list-disc pl-5;
+}
+.prose-article ol {
+  @apply my-3 list-decimal pl-5;
+}
+.prose-article a {
+  @apply break-words text-sky-400;
+}
+.prose-article table {
+  @apply my-4 block w-full border-collapse overflow-x-auto text-sm;
+}
+.prose-article th,
+.prose-article td {
+  @apply border border-zinc-800 px-2.5 py-1.5 text-left;
+}
+.prose-article th {
+  @apply bg-zinc-800/50;
+}
+.prose-article pre {
+  @apply my-3 overflow-x-auto rounded-lg bg-black p-3.5;
+}
+.prose-article code {
+  @apply rounded bg-zinc-800 px-1.5 text-[0.9em];
+}
+.prose-article pre code {
+  @apply bg-transparent p-0;
+}

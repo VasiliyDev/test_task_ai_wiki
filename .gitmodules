@@ -1,0 +1,4 @@
+[submodule "site"]
+	path = site
+	url = https://github.com/VasiliyDev/test_task_ai_wiki_demo.git
+	branch = main

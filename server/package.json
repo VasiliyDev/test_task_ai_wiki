@@ -1,0 +1,30 @@
+{
+  "name": "ai-wiki-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AI-вики: бэкенд (Express + Sequelize/SQLite, TypeScript), генерация статей через Anthropic API",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "marked": "^18.0.5",
+    "morgan": "^1.10.0",
+    "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.17.0",
+    "typescript": "^5.7.2"
+  }
+}

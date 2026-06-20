@@ -1,0 +1,28 @@
+# РЕЖИМ КОНТЕЙНЕРОВ → генерация только по API-ключу.
+# Внутри контейнера НЕТ локального `claude` (он на хосте, изолирован), поэтому нужен
+# ANTHROPIC_API_KEY в .env. Без ключа: API/каталог/отладка работают, чат заблокирован.
+# Бесплатный режим через локальный claude — только хостовый `npm run dev` (см. README).
+services:
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    environment:
+      # Файловая БД (SQLite) внутри смонтированного каталога data/.
+      DB_FILE: /app/data/aiwiki.sqlite
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      LLM_MODEL: ${LLM_MODEL:-claude-opus-4-8}
+      PORT: "3000"
+    volumes:
+      # БД лежит в репозитории (./data) — переживает пересборку и удобно отдавать.
+      - ./data:/app/data
+    ports:
+      - "3000:3000"
+
+  web:
+    build:
+      context: ./web
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
