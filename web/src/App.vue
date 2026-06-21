@@ -9,7 +9,6 @@ import { RouterLink, RouterView } from "vue-router";
       <nav class="nav">
         <RouterLink to="/">Чат</RouterLink>
         <RouterLink to="/catalog">Каталог</RouterLink>
-        <RouterLink to="/compare">Сравнение</RouterLink>
         <RouterLink to="/prompts">Промты</RouterLink>
       </nav>
     </div>
