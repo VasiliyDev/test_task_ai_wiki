@@ -1,0 +1,29 @@
+# Prod-оверрайд для сервера (автодеплой). Подключается в .github/workflows/deploy.yml:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+#
+# Прод-режим осознанно простой:
+#  • Ключа Anthropic на проде НЕТ → генерация выключена. Контур работает как витрина:
+#    каталог, статьи, сравнения RAW/SOFT/RIGID из закоммиченной БД. Чат/генерация в UI
+#    заблокированы (см. llm.ts: нет ключа и нет claude в контейнере → generation off).
+#  • БД (data/aiwiki.sqlite) едет из репозитория и затирается на каждом деплое
+#    (git reset --hard) — это ОК: прод = ровно то, что в main (те самые 10 статей).
+#
+# Наружу отдаёт общий Caddy (проект bettingProject) на https://ai-wiki.jsdev.pw:
+# web подключён к внешней docker-сети `web` с алиасом ai-wiki-web, и в Caddyfile стоит
+# `reverse_proxy ai-wiki-web:80`. Хост-порты НЕ публикуем — нет конфликтов на общем сервере.
+services:
+  api:
+    restart: unless-stopped
+
+  web:
+    restart: unless-stopped
+    networks:
+      default: {}
+      web:
+        aliases:
+          - ai-wiki-web
+
+networks:
+  # Общая внешняя сеть с Caddy (создаётся один раз: docker network create web).
+  web:
+    external: true

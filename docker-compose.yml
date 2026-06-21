@@ -16,13 +16,12 @@ services:
     volumes:
       # БД лежит в репозитории (./data) — переживает пересборку и удобно отдавать.
       - ./data:/app/data
-    ports:
-      - "3000:3000"
+    # Хост-порты НЕ публикуем здесь: для локалки они в docker-compose.override.yml
+    # (подхватывается автоматически), на проде наружу отдаёт Caddy через сеть `web`
+    # (docker-compose.prod.yml). Так нет конфликтов портов на общем сервере.
 
   web:
     build:
       context: ./web
     depends_on:
       - api
-    ports:
-      - "8080:80"

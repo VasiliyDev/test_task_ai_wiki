@@ -1,0 +1,11 @@
+# Локальная разработка: публикует хост-порты. Docker Compose подхватывает этот файл
+# автоматически при `docker compose up` (без -f). На проде НЕ применяется — там деплой
+# идёт с явными `-f docker-compose.yml -f docker-compose.prod.yml`, и авто-override
+# отключается, поэтому хост-порты не публикуются (наружу отдаёт Caddy).
+services:
+  api:
+    ports:
+      - "3000:3000"
+  web:
+    ports:
+      - "8080:80"   # локально UI на http://localhost:8080

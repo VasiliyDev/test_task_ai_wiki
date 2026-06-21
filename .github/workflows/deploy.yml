@@ -1,0 +1,39 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            set -e
+            APP_DIR=~/ai-wiki
+            REPO=https://github.com/VasiliyDev/test_task_ai_wiki.git
+            # Самобутстрап: первый деплой клонирует репозиторий, дальше — обновляет.
+            if [ ! -d "$APP_DIR/.git" ]; then
+              git clone "$REPO" "$APP_DIR"
+            fi
+            cd "$APP_DIR"
+            # Жёсткая синхронизация с origin/main (как в lol-analytics): git pull спотыкается
+            # о грязное дерево и тихо не обновляет код. reset --hard всегда приводит дерево к
+            # origin/main. БД (data/aiwiki.sqlite) при этом затирается версией из репы — на проде
+            # это ОК: прод = ровно то, что в main (генерации на проде нет, ключа Anthropic нет).
+            git fetch origin main
+            git reset --hard origin/main
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+            # Чистим висячие образы, чтобы не забивать диск (на VPS уже несколько проектов).
+            docker image prune -f
