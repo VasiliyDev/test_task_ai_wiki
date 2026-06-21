@@ -1,5 +1,8 @@
 # --- сборка ---
-FROM node:20-alpine AS build
+# slim (glibc), а не alpine (musl): на musl npm не ставит нативные optional-deps
+# rollup/lightningcss/tailwind-oxide из lock-файла и сборка падает. glibc совпадает
+# с lock (он сгенерён на linux-x64-gnu) → vite-сборка проходит без ручных доустановок.
+FROM node:20-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm install
