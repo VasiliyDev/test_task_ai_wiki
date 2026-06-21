@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed, watch, nextTick } from "vue";
-import { RouterLink } from "vue-router";
 import { useQueryClient } from "@tanstack/vue-query";
 import type { ConversationMessage } from "@/api/types";
 import type { ChatMsg } from "@/chat/types";
@@ -106,16 +105,8 @@ async function send(text: string): Promise<void> {
 <template>
   <p v-if="statusPending" class="muted">Проверяю доступность генерации…</p>
 
-  <!-- Генерация недоступна: чат заблокирован, отладка по БД работает -->
-  <div v-else-if="!available" class="card">
-    <h2 class="mt-0 text-lg font-semibold">Чат недоступен</h2>
-    <p class="muted">
-      Нет ни API-ключа, ни локального Claude CLI — генерировать новые статьи сейчас нельзя.
-      Накопленные данные доступны:
-    </p>
-    <RouterLink class="btn mt-2" to="/catalog">Открыть каталог статей →</RouterLink>
-  </div>
-
+  <!-- Генерация может быть недоступна (нет токена): чаты и история всё равно
+       показываются для чтения, недоступна только отправка новых сообщений. -->
   <div v-else class="chat-wrap flex flex-col gap-3 md:grid md:grid-cols-[260px_1fr]">
     <ChatSidebar
       class="max-h-44 md:max-h-none md:h-full"
@@ -130,7 +121,15 @@ async function send(text: string): Promise<void> {
       <div ref="scrollEl" class="flex-1 overflow-y-auto">
         <MessageList :messages="messages" />
       </div>
-      <Composer :disabled="sending" @send="send" />
+      <p v-if="!available" class="muted mb-1 text-sm">
+        Генерация сейчас недоступна (нет токена) — историю можно читать, но отправлять новые
+        сообщения нельзя.
+      </p>
+      <Composer
+        :disabled="sending || !available"
+        :placeholder="available ? undefined : 'Отправка отключена — генерация недоступна'"
+        @send="send"
+      />
     </div>
   </div>
 </template>

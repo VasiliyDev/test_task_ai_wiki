@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const props = defineProps<{ disabled?: boolean }>();
+const props = withDefaults(defineProps<{ disabled?: boolean; placeholder?: string }>(), {
+  placeholder: "Спросите что-нибудь…",
+});
 const emit = defineEmits<{ send: [text: string] }>();
 
 const text = ref("");
@@ -27,7 +29,7 @@ function onKeydown(e: KeyboardEvent): void {
       rows="1"
       :disabled="disabled"
       class="field max-h-32 flex-1 resize-none"
-      placeholder="Спросите что-нибудь…"
+      :placeholder="placeholder"
       @keydown="onKeydown"
     ></textarea>
     <button class="btn" :disabled="disabled || !text.trim()" aria-label="Отправить">→</button>
