@@ -44,7 +44,7 @@ export interface GenerationStatus {
   mode: string;
 }
 
-export type PromptKind = "generate" | "baseline" | "classify" | "verify";
+export type PromptKind = "generate" | "baseline" | "classify" | "verify" | "analyze";
 
 export type PromptStatus = "active" | "test" | "inactive";
 

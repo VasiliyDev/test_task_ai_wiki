@@ -27,6 +27,10 @@ async function http<T>(path: string, options: RequestInit = {}): Promise<T> {
 export const api = {
   status: () => http<{ generation: GenerationStatus }>("/status"),
 
+  getAnalysis: () => http<{ markdown: string }>("/analysis"),
+  runAnalysis: () =>
+    http<{ markdown: string; evaluated: number; total: number }>("/analysis/run", { method: "POST" }),
+
   listArticles: () => http<ArticleListItem[]>("/articles"),
   getArticle: (slug: string) => http<Article>(`/articles/${slug}`),
   addComment: (slug: string, author: string, body: string) =>

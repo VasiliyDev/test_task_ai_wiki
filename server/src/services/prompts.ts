@@ -12,8 +12,9 @@ const SEED: { kind: PromptKind; file: string; label: string; status: PromptStatu
   { kind: "generate", file: "generate-rigid.md", label: "rigid", status: "test" },
   { kind: "classify", file: "classify.md", label: "v1", status: "active" },
   { kind: "verify", file: "verify.md", label: "v1", status: "active" },
+  { kind: "analyze", file: "analyze.md", label: "v1", status: "active" },
 ];
-export const KINDS: PromptKind[] = ["generate", "classify", "verify"];
+export const KINDS: PromptKind[] = ["generate", "classify", "verify", "analyze"];
 
 export async function seedPrompts(): Promise<void> {
   for (const s of SEED) {

@@ -23,6 +23,11 @@ COPY server/tsconfig.json ./
 # Промты. generator.ts резолвит ../../../prompts от /app/src/services -> /prompts.
 COPY prompts /prompts
 
+# Готовый разбор рецензента. analysis.ts резолвит ../../../out от /app/src/routes -> /out
+# и отдаёт его на GET /api/analysis. На проде генерации нет, поэтому файл едет из
+# репозитория (как и промты); пересчёт (POST /api/analysis/run) доступен только там, где есть LLM.
+COPY out /out
+
 # Каталог под файловую БД (в проде монтируется как volume ./data).
 RUN mkdir -p /app/data
 

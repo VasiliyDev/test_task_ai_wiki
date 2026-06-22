@@ -9,6 +9,7 @@ import { chat } from "./routes/chat";
 import { conversations } from "./routes/conversations";
 import { prompts } from "./routes/prompts";
 import { meta } from "./routes/meta";
+import { analysis } from "./routes/analysis";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -23,6 +24,7 @@ app.use("/api/articles", articles);
 app.use("/api/conversations", conversations);
 app.use("/api/prompts", prompts);
 app.use("/api/chat", chat);
+app.use("/api/analysis", analysis);
 
 // Единый обработчик ошибок.
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

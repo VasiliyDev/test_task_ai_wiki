@@ -9,7 +9,7 @@ import {
   useUpdatePrompt,
 } from "@/queries/prompts";
 
-const KINDS: PromptKind[] = ["generate", "baseline", "classify", "verify"];
+const KINDS: PromptKind[] = ["generate", "baseline", "classify", "verify", "analyze"];
 
 const { data: prompts, error } = usePrompts();
 const update = useUpdatePrompt();

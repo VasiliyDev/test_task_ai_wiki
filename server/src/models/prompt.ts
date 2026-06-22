@@ -7,7 +7,7 @@ import {
   type Sequelize,
 } from "sequelize";
 
-export type PromptKind = "generate" | "baseline" | "classify" | "verify";
+export type PromptKind = "generate" | "baseline" | "classify" | "verify" | "analyze";
 // active — боевая версия (одна на вид); test — тест-прогонная; inactive — просто висит.
 export type PromptStatus = "active" | "test" | "inactive";
 

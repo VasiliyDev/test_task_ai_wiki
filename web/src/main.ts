@@ -5,6 +5,7 @@ import App from "@/App.vue";
 import Chat from "@/views/Chat.vue";
 import Catalog from "@/views/Catalog.vue";
 import Prompts from "@/views/Prompts.vue";
+import Analysis from "@/views/Analysis.vue";
 import Article from "@/views/Article.vue";
 import "@/style.css";
 
@@ -14,6 +15,7 @@ const router = createRouter({
     { path: "/", name: "chat", component: Chat },
     { path: "/catalog", name: "catalog", component: Catalog },
     { path: "/prompts", name: "prompts", component: Prompts },
+    { path: "/analysis", name: "analysis", component: Analysis },
     { path: "/a/:slug", name: "article", component: Article, props: true },
   ],
 });
